@@ -37,5 +37,13 @@ AWS settings is necessary when sitemap.xml uploads to AWS S3 bucket (REVEAL_LOCA
 - REVEAL_AWS_REGION is AWS connection region
 - REVEAL_AWS_BUCKET is S3 bucket name to upload file
 
+## Cassandra 
+
+Cassandra database added in demo purposes so tables limited and simplified.
+To run application using Cassandra it is necessary to:
+1) run Cassandra Docker using docker-compose.yml from project root
+2) create tables using cassandra.sql:  
+> docker exec -it container-name cqlsh -f /tmp/cassandra.cql
+
 ## Notes
 Loading data from database performs sequential because sitemap should be updated not often (several times per day is maximum) so it is not necessary to load database by parallel requests.
