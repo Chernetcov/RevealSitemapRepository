@@ -1,37 +1,20 @@
 package world.reveal.sitemap
 package models.postgres
 
+import entities.{PublicationStatus, SitemapCollectionData, StorySitemapData}
 import models.SitemapRepository
 
 import cats.effect.{IO, Resource}
-import doobie.Transactor
+import doobie.hikari.HikariTransactor
 import doobie.implicits._
 import doobie.postgres.implicits._
-import entities.{DbConfig, PublicationStatus, SitemapCollectionData, StorySitemapData}
-
-import com.zaxxer.hikari.HikariConfig
-import doobie.hikari.HikariTransactor
 
 import java.util.UUID
 
 /**
  * Loads sitemap data from PostgreSQL database
- * @param dbConfig is database configuration options
  */
-class PgSitemapRepository(dbConfig: DbConfig) extends SitemapRepository{
-
-  private val transactor: Resource[IO, HikariTransactor[IO]] =
-    for {
-      hikariConfig <- Resource.pure {
-        val config = new HikariConfig()
-        config.setDriverClassName(dbConfig.driver)
-        config.setJdbcUrl(dbConfig.url)
-        config.setUsername(dbConfig.username)
-        config.setPassword(dbConfig.password)
-        config
-      }
-      xa <- HikariTransactor.fromHikariConfig[IO](hikariConfig)
-    } yield xa
+class PgSitemapRepository(implicit transactor: Resource[IO, HikariTransactor[IO]]) extends SitemapRepository{
 
   /**
    * Get list of authors who write stories on selected language
@@ -104,4 +87,9 @@ class PgSitemapRepository(dbConfig: DbConfig) extends SitemapRepository{
         .transact(xa)
     }
   }
+
+  /**
+   * Perform finish work like close connections, free memory
+   */
+  override def finish(): IO[Unit] = IO.pure()
 }

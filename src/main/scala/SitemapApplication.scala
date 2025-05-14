@@ -1,7 +1,6 @@
 package world.reveal.sitemap
 
 import entities.{ApplicationConfig, ServiceVersion, SitemapManager}
-import models.postgres.PgSitemapRepository
 
 import cats.effect.unsafe.implicits.global
 import cats.effect.{ExitCode, IO, IOApp}
@@ -13,7 +12,7 @@ object SitemapApplication extends IOApp {
 
   private def createManager(config: ApplicationConfig) = {
     IO.pure(SitemapManager(
-      new PgSitemapRepository(config.db),
+      RepositoryCreator.create(config),
       config.mode match {
         case ServiceVersion.Next => new NextSitemapCreator()
         case ServiceVersion.Cra => new CraSitemapCreator()
@@ -29,7 +28,9 @@ object SitemapApplication extends IOApp {
 
   val mainIO: IO[Unit] = for {
     config <- ConfigLoader.getConfig
-    manager <- createManager(config)
+    manager <- createManager(config).map{t => logger.info("manager created")
+      t
+    }
     _ <- SitemapService.generateSitemap(config).run(manager)
   } yield ()
 

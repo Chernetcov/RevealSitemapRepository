@@ -41,8 +41,9 @@ object SitemapService {
       authorsIO,
       categoriesIO,
       storiesIO,
-      collectionsIO
-    ).mapN((authors, categories, stories, collections) =>
+      collectionsIO,
+      manager.repository.finish()
+    ).mapN ((authors, categories, stories, collections, _) =>
       Sitemap(languages, authors, categories, stories, collections)
     )
   }

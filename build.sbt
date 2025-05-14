@@ -4,7 +4,7 @@ ThisBuild / scalaVersion := "2.13.16"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "RevealSitemapService",
+    name := "SitemapDemo",
     idePackagePrefix := Some("world.reveal.sitemap")
   )
 
@@ -24,4 +24,5 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.5.18",
   "org.scala-lang.modules" %% "scala-xml" % "2.3.0",
   "software.amazon.awssdk" % "s3" % "2.31.28",
+  "org.apache.cassandra" % "java-driver-core" % "4.19.0",
 )

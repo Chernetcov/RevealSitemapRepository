@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS reveal.story (
     name text,
     slug_name text,
     update_time timestamp,
-    PRIMARY KEY ((story_id), language, slug_name)
+    PRIMARY KEY ((language))
 );
 
 INSERT INTO reveal.story
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS reveal.collections (
     slug_name text,
     edited timestamp,
     stories set<text>,
-    PRIMARY KEY ((collection_id), language, slug_name)
+    PRIMARY KEY ((language))
 );
 
 INSERT INTO reveal.collections

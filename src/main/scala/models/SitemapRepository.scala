@@ -13,6 +13,11 @@ import java.util.UUID
 trait SitemapRepository {
 
   /**
+   * Perform finish work like close connections, free memory
+   */
+  def finish(): IO[Unit]
+
+  /**
    * Get list of authors who write stories on selected language
    * @param language is language connected with author
    * @return list of author uuid

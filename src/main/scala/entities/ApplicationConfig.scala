@@ -8,6 +8,11 @@ object ServiceVersion extends Enumeration {
   val Next, Cra = Value
 }
 
+object RepositoryType extends Enumeration {
+  type RepositoryType = Value
+  val Postgres, Cassandra = Value
+}
+
 case class DbConfig (
                       driver: String,
                       url: String,
@@ -36,6 +41,13 @@ object ApplicationConfig {
       case "next" => ServiceVersion.Next
     }
   )
+
+  implicit val repositoryTypeReader: ConfigReader[RepositoryType.Value] = ConfigReader.fromString[RepositoryType.Value](
+    ConvertHelpers.catchReadError {
+      case "postgres" => RepositoryType.Postgres
+      case "cassandra" => RepositoryType.Cassandra
+    }
+  )
 }
 
 
@@ -48,5 +60,6 @@ case class ApplicationConfig(
                             kafka: Boolean = false,
                             db: DbConfig,
                             aws: AwsConfig,
-                            kafkaSettings: KafkaSettings
+                            kafkaSettings: KafkaSettings,
+                            repository: RepositoryType.RepositoryType = RepositoryType.Postgres
                             )

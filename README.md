@@ -47,3 +47,4 @@ To run application using Cassandra it is necessary to:
 
 ## Notes
 Loading data from database performs sequential because sitemap should be updated not often (several times per day is maximum) so it is not necessary to load database by parallel requests.
+For now SitemapRepository creation realized faster and not the best way. Problem in Cassandra session and HikariTransactor creation and session close. It is necessary to refactor this. 

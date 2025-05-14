@@ -53,4 +53,9 @@ override def stories(language: String): IO[Seq[StorySitemapData]] = IO.pure(stor
    * @return list of collections data
    */
   override def collections(language: String): IO[Seq[SitemapCollectionData]] = IO.pure(collections(language))
+
+  /**
+   * Perform finish work like close connections, free memory
+   */
+  override def finish(): IO[Unit] = IO.pure()
 }

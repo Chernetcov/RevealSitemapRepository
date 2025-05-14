@@ -6,7 +6,7 @@ import cats.effect.IO
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 
-import entities.ApplicationConfig.serviceVersionReader
+import entities.ApplicationConfig._
 
 object ConfigLoader {
 
